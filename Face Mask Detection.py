@@ -59,7 +59,7 @@ def mask_detection_webcam(confThreshold=0.5, nmsThreshold=0.5):
         if ret is False:
             break
         frame = get_processed_image(frame, net, confThreshold, nmsThreshold)
-        cv2.imshow('Webcam (Press ESC for exit)', frame)
+        cv2.imshow('Face Mask Detection (Press ESC for exit)', frame)
         if cv2.waitKey(int(1000 // cam.get(cv2.CAP_PROP_FPS))) & 0xFF == 27:  # 27 = ESC ASCII code
             break
     cam.release()
