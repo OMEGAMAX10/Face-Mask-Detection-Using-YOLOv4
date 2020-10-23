@@ -1,5 +1,7 @@
 import cv2
+import threading
 import numpy as np
+
 LABELS = ["Without Mask", "Mask"]
 COLORS = [[0, 0, 255], [0, 255, 0]]
 weightsPath = "yolo_utils/yolov4_face_mask.weights"
@@ -14,6 +16,20 @@ def create_detection_net(config_path, weights_path):
     net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
     net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
     return net
+
+
+class CamThread(threading.Thread):
+    def __init__(self, camName, camID, confThreshold=0.5, nmsThreshold=0.5):
+        # camID can be either a number (0, 1, ...) or an IP address ('https://192.168.43.1:8080/video' for example)
+        threading.Thread.__init__(self)
+        self.previewName = camName
+        self.camID = camID
+        self.confThreshold = confThreshold
+        self.nmsThreshold = nmsThreshold
+
+    def run(self):
+        print("Starting " + self.previewName)
+        mask_detection_camera(self.previewName, self.camID, self.confThreshold, self.nmsThreshold)
 
 
 def get_processed_image(img, net, confThreshold, nmsThreshold):
@@ -37,8 +53,7 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
         cv2.putText(img, text, start_point, cv2.FONT_ITALIC, 0.6, COLORS[1 - cl[0]], 1)  # print class type with score
     text = f'   Mask Count: {mask_count}        No Mask Count: {nomask_count}'
     cv2.putText(img, text, (0, int(border_size - 17)), cv2.FONT_ITALIC, 0.8, border_text_color, 2)
-    text = "Status:"
-    cv2.putText(img, text, (img.shape[1] - 230, int(border_size - 15)), cv2.FONT_ITALIC, 0.8, border_text_color, 2)
+    cv2.putText(img, "Status:", (img.shape[1] - 230, int(border_size - 15)), cv2.FONT_ITALIC, 0.8, border_text_color, 2)
     ratio = nomask_count / (mask_count + nomask_count + 0.000001)
     if ratio >= 0.1 and nomask_count >= 3:
         cv2.putText(img, "Danger !", (img.shape[1] - 130, int(border_size - 17)), cv2.FONT_ITALIC, 0.8, [26, 13, 247], 2)
@@ -49,9 +64,9 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
     return img
 
 
-def mask_detection_webcam(confThreshold=0.5, nmsThreshold=0.5):
+def mask_detection_camera(camName, camID, confThreshold=0.5, nmsThreshold=0.5):
     net = create_detection_net(configPath, weightsPath)
-    cam = cv2.VideoCapture(0)
+    cam = cv2.VideoCapture(camID)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
     while cam.isOpened():
@@ -59,11 +74,17 @@ def mask_detection_webcam(confThreshold=0.5, nmsThreshold=0.5):
         if ret is False:
             break
         frame = get_processed_image(frame, net, confThreshold, nmsThreshold)
-        cv2.imshow('Face Mask Detection (Press ESC for exit)', frame)
+        cv2.imshow('Face Mask Detection: ' + camName + ' (Press ESC for close camera)', frame)
         if cv2.waitKey(int(1000 // cam.get(cv2.CAP_PROP_FPS))) & 0xFF == 27:  # 27 = ESC ASCII code
             break
     cam.release()
     cv2.destroyAllWindows()
 
 
-mask_detection_webcam()
+cam_threads = []
+cam_threads.append(CamThread("Camera 1", 0))
+cam_threads.append(CamThread("Camera 2", 1))
+cam_threads.append(CamThread("IP Camera", 'https://192.168.43.1:8080/video'))
+
+for thread in cam_threads:
+    thread.start()
