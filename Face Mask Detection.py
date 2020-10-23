@@ -74,7 +74,7 @@ def mask_detection_camera(camName, camID, confThreshold=0.5, nmsThreshold=0.5):
         if ret is False:
             break
         frame = get_processed_image(frame, net, confThreshold, nmsThreshold)
-        cv2.imshow('Face Mask Detection: ' + camName + ' (Press ESC for close camera)', frame)
+        cv2.imshow(camName + ' - Face Mask Detection (Press ESC for close camera)', frame)
         if cv2.waitKey(int(1000 // cam.get(cv2.CAP_PROP_FPS))) & 0xFF == 27:  # 27 = ESC ASCII code
             break
     cam.release()
@@ -84,7 +84,7 @@ def mask_detection_camera(camName, camID, confThreshold=0.5, nmsThreshold=0.5):
 cam_threads = []
 cam_threads.append(CamThread("Camera 1", 0))
 cam_threads.append(CamThread("Camera 2", 1))
-cam_threads.append(CamThread("IP Camera", 'https://192.168.43.1:8080/video'))
+# cam_threads.append(CamThread("IP Camera", 'https://192.168.43.1:8080/video'))
 
 for thread in cam_threads:
     thread.start()
