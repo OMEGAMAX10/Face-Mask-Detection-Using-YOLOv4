@@ -22,14 +22,14 @@ class CamThread(threading.Thread):
     def __init__(self, camName, camID, confThreshold=0.5, nmsThreshold=0.5):
         # camID can be either a number (0, 1, ...) or an IP address ('https://192.168.43.1:8080/video' for example)
         threading.Thread.__init__(self)
-        self.previewName = camName
+        self.camName = camName
         self.camID = camID
         self.confThreshold = confThreshold
         self.nmsThreshold = nmsThreshold
 
     def run(self):
-        print("Starting " + self.previewName)
-        mask_detection_camera(self.previewName, self.camID, self.confThreshold, self.nmsThreshold)
+        print("Starting " + self.camName)
+        mask_detection_camera(self.camName, self.camID, self.confThreshold, self.nmsThreshold)
 
 
 def get_processed_image(img, net, confThreshold, nmsThreshold):
@@ -64,7 +64,7 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
     return img
 
 
-def mask_detection_camera(camName, camID, confThreshold=0.5, nmsThreshold=0.5):
+def mask_detection_camera(camName, camID, confThreshold, nmsThreshold):
     net = create_detection_net(configPath, weightsPath)
     cam = cv2.VideoCapture(camID)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
