@@ -84,7 +84,7 @@ def mask_detection_camera(camName, camID, confThreshold=0.5, nmsThreshold=0.5):
 cam_threads = []
 cam_threads.append(CamThread("Camera 1", 0))
 cam_threads.append(CamThread("Camera 2", 1))
-# cam_threads.append(CamThread("IP Camera", 'https://192.168.43.1:8080/video'))
+cam_threads.append(CamThread("IP Camera", 'https://192.168.43.1:8080/video'))
 
 for thread in cam_threads:
     thread.start()
