@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>new_cam_menu</class>
+ <widget class="QWidget" name="new_cam_menu">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>610</width>
+    <height>310</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Face Mask Detector: Add New Camera</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(5, 23, 47);</string>
+  </property>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>571</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <property name="horizontalSpacing">
+     <number>20</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>50</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QLabel" name="camera_name_label">
+      <property name="font">
+       <font>
+        <family>Gill Sans MT</family>
+        <pointsize>24</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: transparent;
+background-color: transparent;
+color: #228B22;
+font: 24pt &quot;Gill Sans MT&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Camera Name:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="cam_name_input">
+      <property name="font">
+       <font>
+        <family>Gill Sans MT</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit:focus{ border-color:#66afe9;}
+
+QLineEdit{
+	color: rgb(21, 138, 8);
+	background-color: rgb(25, 35, 65);
+	border-style: transparent ;
+	border-radius: 20px;
+	border-width: 1px;
+	border-color: green;
+	min-width: 10em;
+	padding: 6px;
+}</string>
+      </property>
+      <property name="maxLength">
+       <number>128</number>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>Camera Name</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="camera_id_label">
+      <property name="font">
+       <font>
+        <family>Gill Sans MT</family>
+        <pointsize>24</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: transparent;
+background-color: transparent;
+color: #228B22;
+font: 24pt &quot;Gill Sans MT&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Camera ID:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="cam_id_input">
+      <property name="font">
+       <font>
+        <family>Gill Sans MT</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit:focus{ border-color:#66afe9;}
+
+QLineEdit{
+	color: rgb(21, 138, 8);
+	background-color: rgb(25, 35, 65);
+	border-style: transparent ;
+	border-radius: 20px;
+	border-width: 1px;
+	border-color: green;
+	min-width: 10em;
+	padding: 6px;
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="maxLength">
+       <number>128</number>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Normal</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Camera ID (number or IP)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QPushButton" name="create_cam_button">
+      <property name="font">
+       <font>
+        <family>Gill Sans MT</family>
+        <pointsize>26</pointsize>
+        <weight>9</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+font: 75 26pt &quot;Gill Sans MT&quot;;
+border:1px transparent;
+border-radius: 20px;
+color: #fff;
+background-color: #228B22;
+border: transparent
+}
+
+QPushButton:hover {
+color: #fff;
+background-color: #006400;
+border: transparent
+}
+
+</string>
+      </property>
+      <property name="text">
+       <string>Create Camera</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
