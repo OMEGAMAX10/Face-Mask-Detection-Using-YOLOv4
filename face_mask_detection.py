@@ -16,7 +16,7 @@ LABELS = ["Without Mask", "Mask"]
 COLORS = [[0, 0, 255], [0, 255, 0]]
 weightsPath = "yolo_utils/yolov4_face_mask.weights"
 configPath = "yolo_utils/yolov4-mask.cfg"
-photo_path = "pictures"
+photo_path = "photos"
 camera_list_path = "resources/camera_list.txt"
 connect_log_path = "resources/connect_history.log"
 
@@ -43,7 +43,7 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
     nomask_count = 0
     border_size = 50
     border_text_color = [255, 255, 255]
-    status_dict = {"Danger !": [26, 13, 247], "Warning !": [0, 255, 255], "Safe": [0, 255, 0]}
+    status_dict = {"Danger": [26, 13, 247], "Warning": [0, 255, 255], "Safe": [0, 255, 0]}
     img = cv2.copyMakeBorder(img, border_size, 0, 0, 0, cv2.BORDER_CONSTANT)
     classes, confidences, boxes = net.detect(img, confThreshold, nmsThreshold)
     for cl, score, (left, top, width, height) in zip(classes, confidences, boxes):
@@ -81,6 +81,7 @@ class Camera(QTimer):
         self.nmsThreshold = nmsThreshold
         self.viewable = False
         self.status = "Not Connected"
+        self.prev_status = "Not Connected"
         self.last_image = None
         self.camera_name_item = QTableWidgetItem(self.camName)
         self.camera_name_item.setTextAlignment(Qt.AlignCenter)
@@ -94,6 +95,13 @@ class Camera(QTimer):
         self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
+    def take_photo(self):
+        today = datetime.now().strftime("%d.%m.%Y")
+        photo_dir_today = Path(os.path.join(photo_path, today, self.status))
+        photo_dir_today.mkdir(parents=True, exist_ok=True)
+        image_name = self.camName + "_" + datetime.now().strftime("%d.%m.%Y_%H.%M.%S") + ".jpg"
+        cv2.imwrite(os.path.join(photo_dir_today, image_name), self.last_image)
+
     def camera_run(self):
         if self.status != "Not Connected":
             try:
@@ -104,7 +112,7 @@ class Camera(QTimer):
                 if status == "Safe":
                     self.camera_name_item.setForeground(QColor(21, 200, 8))
                     self.camera_status_item.setForeground(QColor(21, 200, 8))
-                elif status == "Warning !":
+                elif status == "Warning":
                     self.camera_name_item.setForeground(QColor("yellow"))
                     self.camera_status_item.setForeground(QColor("yellow"))
                 else:
@@ -141,6 +149,13 @@ class Camera(QTimer):
             if self.viewable is True:
                 mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
                 mainMenu.ui.image_label.setText(self.camName + " is not connected")
+
+        if self.prev_status == "Safe" or self.prev_status == "Not Connected":
+            if self.status == "Warning" or self.status == "Danger":
+                self.take_photo()
+        elif self.prev_status == "Warning" and self.status == "Danger":
+            self.take_photo()
+        self.prev_status = self.status
 
 
 class MainMenu(QMainWindow):
