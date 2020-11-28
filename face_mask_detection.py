@@ -14,8 +14,12 @@ from main_menu import *
 
 LABELS = ["Without Mask", "Mask"]
 COLORS = [[0, 0, 255], [0, 255, 0]]
+# LABELS = ["Mask", "Without Mask"]
+# COLORS = [[0, 255, 0], [0, 0, 255]]
 weightsPath = "yolo_utils/yolov4_face_mask.weights"
 configPath = "yolo_utils/yolov4-mask.cfg"
+# weightsPath = "yolo_utils/yolov4-tiny-mask.weights"
+# configPath = "yolo_utils/yolov4-tiny-mask.cfg"
 photo_path = "photos"
 camera_list_path = "resources/camera_list.txt"
 connect_log_path = "resources/connect_history.log"
@@ -49,6 +53,8 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
     for cl, score, (left, top, width, height) in zip(classes, confidences, boxes):
         mask_count += cl[0]
         nomask_count += (1 - cl[0])
+        # mask_count += (1 - cl[0])
+        # nomask_count += cl[0]
         start_point = (int(left), int(top))
         end_point = (int(left + width), int(top + height))
         color = COLORS[cl[0]]
@@ -154,6 +160,8 @@ class Camera(QTimer):
             if self.status == "Warning" or self.status == "Danger":
                 self.take_photo()
         elif self.prev_status == "Warning" and self.status == "Danger":
+            self.take_photo()
+        elif self.prev_status == "Danger" and self.status == "Warning":
             self.take_photo()
         self.prev_status = self.status
 
