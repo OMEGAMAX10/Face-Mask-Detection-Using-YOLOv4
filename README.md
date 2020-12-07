@@ -25,8 +25,8 @@ foo@bar:~$ python3 .\face_mask_detection.py
     - A camera control panel on the right part of the window where the camera list is displayed together with the status of every camera in real time;
     - a button for taking photos to be further analysed in order to identify the persons not wearing a mask on the lower part of the window;
     
-5. Despite the fact that you can take manually photos from the main menu, the application is capable of taking photos automatically whenever 
-    
+5. Despite the fact that you can take manually photos from the main menu, the application is capable of taking photos automatically with whenever the state of a camera switches to "Warning" or "Danger".
+
 
 The dataset used for training this model is the one from Kaggle: https://www.kaggle.com/alexandralorenzo/maskdetection
 
