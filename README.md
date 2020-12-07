@@ -17,13 +17,13 @@ foo@bar:~$ python3 .\face_mask_detection.py
     - **IP address (e.g.: https://192.168.43.1:8080/video):** A camera with this ID represents a video recording device connected to the same network as the system which uses the application. For example, one can connect an Android device as a remote camera using "IP Webcam" Google Playstore app: https://play.google.com/store/apps/details?id=com.pas.webcam&hl=ro&gl=US.
     - **Video file location:** A camera with this ID represents a locally stored video, on which our application will run the detection. This case is useful whenever we have an already pre-recorded video file, possibly from a camera that was nou connected to a system with this application.
     
-3. When you think that the camera list is ready, you can access the main menu
+3. When you think that the camera list is ready, you can access the main menu.
 
 4. In the main menu, you will have the following elements: 
     - A main panel where the selected camera will be displayed together with the detections of the masked or unmasked faces from it, as well as real time statistics of their numbers and its status ("Not Connected" - the camera is not connected to the system, "Safe" - all people wear mask, "Warning" - 1 or 2 people do not wear a mask, "Danger" - more than 3 people do not wear a mask);
     - A small selection menu on the upper part of the window from where you can select which camera do you whish to visualize;
     - A camera control panel on the right part of the window where the camera list is displayed together with the status of every camera in real time;
-    - a button for taking photos to be further analysed in order to identify the persons not wearing a mask on the lower part of the window;
+    - a button for taking photos to be further analysed in order to identify the persons not wearing a mask on the lower part of the window.
     
 5. Despite the fact that you can take manually photos from the main menu, the application is capable of taking photos automatically with whenever the state of a camera switches to "Warning" or "Danger".
 
