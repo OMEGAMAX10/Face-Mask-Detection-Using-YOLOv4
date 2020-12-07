@@ -14,6 +14,7 @@ foo@bar:~$ python3 .\face_mask_detection.py
 
 2. From the start menu, you can add or delete a camera from the camera list. When creating a camera, a name and an ID must be provided. The ID must be from one of these categories:
     - **integer (e.g. 0, 1, 2...):** A camera with this ID represents a video recording device physically connected to the system which uses the application. For instance, if you want to use the webcam of a laptop, you must create a camera with an ID of 0 (an explanation would be that, in particular for Ubuntu, the integrated camera of a laptop is interpreted as /dev/video0).
+    - **IP address (e.g. https://192.168.43.1:8080/video):** A camera with this ID represents a video recording device connected to the same network as the system which uses the application. For example, one can connect an Android device as a remote camera using this Google Playstore app: https://play.google.com/store/apps/details?id=com.pas.webcam&hl=ro&gl=US
 
 The dataset used for training this model is the one from Kaggle: https://www.kaggle.com/alexandralorenzo/maskdetection
 
