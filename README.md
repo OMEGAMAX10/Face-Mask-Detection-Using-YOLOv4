@@ -19,7 +19,9 @@ foo@bar:~$ python3 .\face_mask_detection.py
     
 3. When you think that the camera list is ready, you can access the main menu
 
-4. 
+4. In the main menu, you will have the following elements: 
+    - A main panel where the selected camera will be displayed together with the detections of the masked or unmasked faces from it, as well as real time statistics of their numbers and its status ("Safe" - all people wear mask, "Warning" - 1 or 2 people do not wear a mask, "Danger" - more than 3 people do not wear a mask)
+    
 
 The dataset used for training this model is the one from Kaggle: https://www.kaggle.com/alexandralorenzo/maskdetection
 
