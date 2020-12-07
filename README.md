@@ -24,7 +24,7 @@ foo@bar:~$ python3 .\face_mask_detection.py
     - A small selection menu on the upper part of the window from where you can select which camera do you whish to visualize;
     - A camera control panel on the right part of the window where the camera list is displayed together with the status of every camera in real time;
     - a button for taking photos to be further analysed in order to identify the persons not wearing a mask on the lower part of the window;
-    Despite
+  Despite
     
 
 The dataset used for training this model is the one from Kaggle: https://www.kaggle.com/alexandralorenzo/maskdetection
