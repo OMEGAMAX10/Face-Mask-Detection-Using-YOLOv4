@@ -11,7 +11,17 @@ Because of the COVID-19 pandemic of 2020, more and more people are concerned wit
     ```powershell
     PS C:> pip install numpy PyQt5 PyQt5-stubs pyqt5-tools
     ```
-5. Install OpenCV with CUDA support using this tutorial: 
+5. Install OpenCV with CUDA support using this tutorial: https://www.youtube.com/watch?v=TT3_dlPL4vo&list=LL&index=1&t=41s
+
+#### For Ubuntu/Debian:
+1. Check if the GPU of the system supports CUDA by checking if it is in this list: https://developer.nvidia.com/cuda-gpus
+2. If the GPU supports CUDA, install it using this guide: https://medium.com/analytics-vidhya/installing-tensorflow-with-cuda-cudnn-gpu-support-on-ubuntu-20-04-f6f67745750a
+3. Run these commands:
+```console
+foo@bar:~$ sudo chmod +x install_dependencies_ubuntu.sh    # make the script executable
+foo@bar:~$ sudo ./install_dependencies_ubuntu.sh           # run the script to install the dependencies of the application
+```
+
 
 ### Guide for using the Face Mask Detector application:
 
