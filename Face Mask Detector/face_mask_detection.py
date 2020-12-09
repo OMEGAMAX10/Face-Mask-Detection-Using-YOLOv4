@@ -34,7 +34,7 @@ connect_log_filename.touch(exist_ok=True)
 
 def create_detection_net(config_path, weights_path):
     net = cv2.dnn_DetectionModel(config_path, weights_path)
-    net.setInputSize(608, 608)
+    net.setInputSize(640, 640)
     net.setInputScale(1.0 / 255)
     net.setInputSwapRB(True)
     net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
