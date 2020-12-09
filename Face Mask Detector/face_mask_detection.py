@@ -4,9 +4,10 @@ import cv2
 import numpy as np
 from pathlib import Path
 from datetime import datetime
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QWidget, QMessageBox
-from PyQt5.QtGui import QImage, QPixmap, QColor, QRegExpValidator
 from PyQt5.QtCore import QTimer, QRegExp, Qt
+from PyQt5.QtGui import QImage, QPixmap, QColor, QRegExpValidator
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QWidget, QMessageBox
+
 
 from start_menu import *
 from new_cam_menu import *
@@ -45,10 +46,6 @@ def create_detection_net(config_path, weights_path):
 def get_processed_image(img, net, confThreshold, nmsThreshold):
     mask_count = 0
     nomask_count = 0
-    border_size = 50
-    border_text_color = [255, 255, 255]
-    status_dict = {"Danger": [26, 13, 247], "Warning": [0, 255, 255], "Safe": [0, 255, 0]}
-    img = cv2.copyMakeBorder(img, border_size, 0, 0, 0, cv2.BORDER_CONSTANT)
     classes, confidences, boxes = net.detect(img, confThreshold, nmsThreshold)
     for cl, score, (left, top, width, height) in zip(classes, confidences, boxes):
         mask_count += cl[0]
@@ -64,18 +61,14 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
         end_point = (int(left + test_width + 2), int(top - text_height - 2))
         img = cv2.rectangle(img, start_point, end_point, color, -1)
         cv2.putText(img, text, start_point, cv2.FONT_ITALIC, 0.6, COLORS[1 - cl[0]], 1)  # print class type with score
-    text = f'   Mask Count: {mask_count}        No Mask Count: {nomask_count}'
-    cv2.putText(img, text, (0, int(border_size - 17)), cv2.FONT_ITALIC, 0.8, border_text_color, 2)
-    cv2.putText(img, "Status:", (img.shape[1] - 230, int(border_size - 15)), cv2.FONT_ITALIC, 0.8, border_text_color, 2)
     ratio = nomask_count / (mask_count + nomask_count + 0.000001)
     if ratio >= 0.1 and nomask_count >= 3:
-        status = list(status_dict.keys())[0]
+        status = "Danger"
     elif ratio != 0 and np.isnan(ratio) is not True:
-        status = list(status_dict.keys())[1]
+        status = "Warning"
     else:
-        status = list(status_dict.keys())[2]
-    cv2.putText(img, status, (img.shape[1] - 130, int(border_size - 17)), cv2.FONT_ITALIC, 0.8, status_dict[status], 2)
-    return img, status
+        status = "Safe"
+    return img, status, mask_count, nomask_count
 
 
 class Camera(QTimer):
@@ -108,26 +101,46 @@ class Camera(QTimer):
         image_name = self.camName + "_" + datetime.now().strftime("%d.%m.%Y_%H.%M.%S") + ".jpg"
         cv2.imwrite(os.path.join(photo_dir_today, image_name), self.last_image)
 
+    def view_disconnected_cam(self):
+        mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
+        mainMenu.ui.image_label.setText(self.camName + " is not connected")
+        status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: rgb(210, 105, 30);"
+        mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
+        mainMenu.ui.image_label.setText(self.camName + " is not connected")
+        mainMenu.ui.mask_count_label.setText("")
+        mainMenu.ui.no_mask_count_label.setText("")
+        mainMenu.ui.status_label.setText('Status:')
+        mainMenu.ui.status_type_label.setText(self.status)
+        mainMenu.ui.status_type_label.setStyleSheet(status_stylesheet)
+
     def camera_run(self):
         if self.status != "Not Connected":
             try:
                 ret, image = self.cam.read()
                 self.last_image = image.copy()
-                image, status = get_processed_image(image, mainMenu.net, self.confThreshold, self.nmsThreshold)
+                image, status, mask_count, nomask_count = get_processed_image(image, mainMenu.net, self.confThreshold, self.nmsThreshold)
                 self.status = status
                 if status == "Safe":
                     self.camera_name_item.setForeground(QColor(21, 200, 8))
                     self.camera_status_item.setForeground(QColor(21, 200, 8))
+                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: rgb(21, 200, 8);"
                 elif status == "Warning":
                     self.camera_name_item.setForeground(QColor("yellow"))
                     self.camera_status_item.setForeground(QColor("yellow"))
+                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: yellow;"
                 else:
                     self.camera_name_item.setForeground(QColor("red"))
                     self.camera_status_item.setForeground(QColor("red"))
+                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: red;"
                 self.camera_status_item.setText(self.status)
                 if self.viewable is True:
                     mainMenu.ui.image_label.setStyleSheet("color: rgb(255, 255, 255);")
                     mainMenu.ui.image_label.setText("Select a Camera")
+                    mainMenu.ui.mask_count_label.setText(f'Mask Count:  {mask_count}')
+                    mainMenu.ui.no_mask_count_label.setText(f'No Mask Count:  {nomask_count}')
+                    mainMenu.ui.status_label.setText('Status:')
+                    mainMenu.ui.status_type_label.setText(status)
+                    mainMenu.ui.status_type_label.setStyleSheet(status_stylesheet)
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                     height, width, channel = image.shape
                     step = channel * width
@@ -142,20 +155,19 @@ class Camera(QTimer):
                 self.camera_status_item.setText(self.status)
                 self.cam.release()
                 if self.viewable is True:
-                    mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
-                    mainMenu.ui.image_label.setText(self.camName + " is not connected")
+                    self.view_disconnected_cam()
+
         else:
             self.cam = cv2.VideoCapture(self.camID)
-            if self.cam.isOpened():
+            if self.cam.isOpened() and self.cam.get(cv2.CAP_PROP_FPS) != 0:
                 with open(connect_log_path, "a") as connect_log:
                     connect_log.write(datetime.now().strftime("%d/%m/%Y - %H:%M:%S ->\t") + self.camName + " (ID: " + str(self.camID) + ") connected to the system.\n\n")
                 self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
                 self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
                 self.status = "Safe"
-            if self.viewable is True:
-                mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
-                mainMenu.ui.image_label.setText(self.camName + " is not connected")
-
+            elif self.viewable is True:
+                self.view_disconnected_cam()
+        # automatically take a photo when the status of the camera switches to "Warning" or "Danger"
         if self.prev_status == "Safe" or self.prev_status == "Not Connected":
             if self.status == "Warning" or self.status == "Danger":
                 self.take_photo()
