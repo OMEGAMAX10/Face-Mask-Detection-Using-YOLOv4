@@ -309,6 +309,10 @@ class StartMenu(QMainWindow):
 
     def open_main_menu(self):
         self.hide()
+        mainMenu.ui.mask_count_label.setText("")
+        mainMenu.ui.no_mask_count_label.setText("")
+        mainMenu.ui.status_label.setText("")
+        mainMenu.ui.status_type_label.setText("")
         mainMenu.get_camera_list()
         mainMenu.showMaximized()
         mainMenu.start_cameras()
