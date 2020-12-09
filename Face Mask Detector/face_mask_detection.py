@@ -8,7 +8,6 @@ from PyQt5.QtCore import QTimer, QRegExp, Qt
 from PyQt5.QtGui import QImage, QPixmap, QColor, QRegExpValidator
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QWidget, QMessageBox
 
-
 from start_menu import *
 from new_cam_menu import *
 from main_menu import *
