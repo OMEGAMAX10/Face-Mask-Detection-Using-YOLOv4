@@ -226,9 +226,12 @@ class MainMenu(QMainWindow):
         self.current_camera.viewable = True
 
     def take_photo(self):
-        image_name = self.current_camera.camName + "_" + datetime.now().strftime("%d.%m.%Y_%H.%M.%S") + ".jpg"
-        cv2.imwrite(os.path.join(photo_path, image_name), self.current_camera.last_image)
-        QTimer.singleShot(0, lambda: self.ui.photo_taken_notification.setText("Photo Taken!"))
+        if self.current_camera is not None and self.current_camera.status != "Not Connected":
+            image_name = self.current_camera.camName + "_" + datetime.now().strftime("%d.%m.%Y_%H.%M.%S") + ".jpg"
+            cv2.imwrite(os.path.join(photo_path, image_name), self.current_camera.last_image)
+            QTimer.singleShot(0, lambda: self.ui.photo_taken_notification.setText("Photo Taken!"))
+        else:
+            QTimer.singleShot(0, lambda: self.ui.photo_taken_notification.setText("Camera not available!"))
         QTimer.singleShot(2000, lambda: self.ui.photo_taken_notification.setText(""))
 
     def open_start_menu(self):
