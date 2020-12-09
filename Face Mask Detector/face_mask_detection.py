@@ -103,7 +103,7 @@ class Camera(QTimer):
     def view_disconnected_cam(self):
         mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
         mainMenu.ui.image_label.setText(self.camName + " is not connected")
-        status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: rgb(210, 105, 30);"
+        status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\"; color: rgb(210, 105, 30);"
         mainMenu.ui.image_label.setStyleSheet("color: rgb(210, 105, 30);")
         mainMenu.ui.image_label.setText(self.camName + " is not connected")
         mainMenu.ui.mask_count_label.setText("")
@@ -122,15 +122,15 @@ class Camera(QTimer):
                 if status == "Safe":
                     self.camera_name_item.setForeground(QColor(21, 200, 8))
                     self.camera_status_item.setForeground(QColor(21, 200, 8))
-                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: rgb(21, 200, 8);"
+                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\"; color: rgb(21, 200, 8);"
                 elif status == "Warning":
                     self.camera_name_item.setForeground(QColor("yellow"))
                     self.camera_status_item.setForeground(QColor("yellow"))
-                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: yellow;"
+                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\"; color: yellow;"
                 else:
                     self.camera_name_item.setForeground(QColor("red"))
                     self.camera_status_item.setForeground(QColor("red"))
-                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\";color: red;"
+                    status_stylesheet = "border: transparent; background-color: transparent; font: 28pt \"Gill Sans MT\"; color: red;"
                 self.camera_status_item.setText(self.status)
                 if self.viewable is True:
                     mainMenu.ui.image_label.setStyleSheet("color: rgb(255, 255, 255);")
