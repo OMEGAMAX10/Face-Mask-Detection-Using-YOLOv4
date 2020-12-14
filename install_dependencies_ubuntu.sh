@@ -16,6 +16,7 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 	-D OPENCV_ENABLE_NONFREE=ON \
 	-D WITH_CUDA=ON \
 	-D WITH_CUDNN=ON \
+	-D WITH_GSTREAMER=OFF \
 	-D OPENCV_DNN_CUDA=ON \
 	-D ENABLE_FAST_MATH=1 \
 	-D CUDA_FAST_MATH=1 \
@@ -25,6 +26,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 	-D HAVE_opencv_python3=ON \
 	-D PYTHON_EXECUTABLE=/usr/bin/python3 \
 	-D BUILD_EXAMPLES=ON ..
-make
+make -j4
 make install
 ldconfig
