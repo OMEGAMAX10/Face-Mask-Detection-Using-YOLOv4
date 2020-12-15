@@ -47,7 +47,7 @@ foo@bar:~$ python3 .\face_mask_detection.py
     - **A camera control panel** in the right part of the window where the camera list is displayed together with the status of every camera in real time;
     - **A "Take Photo" button** placed in the lower part of the window used for taking photos for further analysis in order to identify the persons not wearing a mask.
     
-5. Despite the fact that you can take photos manually from the main menu, the application makes each of the connected cameras capable of taking photos automatically with whenever its state switches to "Warning" or "Danger".
+5. Despite the fact that you can take photos manually from the main menu, the application makes each of the connected cameras capable of taking photos automatically whenever its state switches to "Warning" or "Danger".
 
 
 ### Datasets and weights used by the Face Mask Detector application:
