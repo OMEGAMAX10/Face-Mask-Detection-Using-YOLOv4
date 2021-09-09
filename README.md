@@ -11,7 +11,7 @@ Because of the COVID-19 pandemic of 2020, more and more people are concerned wit
     ```powershell
     PS C:> pip install numpy PyQt5 PyQt5-stubs pyqt5-tools
     ```
-5. Install OpenCV with CUDA support using this tutorial: https://www.youtube.com/watch?v=TT3_dlPL4vo&list=LL&index=1&t=41s
+5. Install OpenCV with CUDA support using this tutorial: https://medium.com/analytics-vidhya/build-opencv-from-source-with-cuda-for-gpu-access-on-windows-5cd0ce2b9b37
 
 #### For Ubuntu/Debian:
 1. Check if the GPU of the system supports CUDA by checking if it is in this list: https://developer.nvidia.com/cuda-gpus
