@@ -47,19 +47,19 @@ def get_processed_image(img, net, confThreshold, nmsThreshold):
     nomask_count = 0
     classes, confidences, boxes = net.detect(img, confThreshold, nmsThreshold)
     for cl, score, (left, top, width, height) in zip(classes, confidences, boxes):
-        mask_count += cl[0]
-        nomask_count += (1 - cl[0])
-        # mask_count += (1 - cl[0])
-        # nomask_count += cl[0]
+        mask_count += cl
+        nomask_count += (1 - cl)
+        # mask_count += (1 - cl)
+        # nomask_count += cl
         start_point = (int(left), int(top))
         end_point = (int(left + width), int(top + height))
-        color = COLORS[cl[0]]
+        color = COLORS[cl]
         img = cv2.rectangle(img, start_point, end_point, color, 2)  # draw class box
-        text = f'{LABELS[cl[0]]}: {score[0]:0.2f}'
+        text = f'{LABELS[cl]}: {score:0.2f}'
         (test_width, text_height), baseline = cv2.getTextSize(text, cv2.FONT_ITALIC, 0.6, 1)
         end_point = (int(left + test_width + 2), int(top - text_height - 2))
         img = cv2.rectangle(img, start_point, end_point, color, -1)
-        cv2.putText(img, text, start_point, cv2.FONT_ITALIC, 0.6, COLORS[1 - cl[0]], 1)  # print class type with score
+        cv2.putText(img, text, start_point, cv2.FONT_ITALIC, 0.6, COLORS[1 - cl], 1)  # print class type with score
     ratio = nomask_count / (mask_count + nomask_count + 0.000001)
     if ratio >= 0.1 and nomask_count >= 3:
         status = "Danger"
