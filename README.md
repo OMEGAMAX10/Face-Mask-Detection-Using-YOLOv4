@@ -43,7 +43,7 @@ foo@bar:~$ python3 .\face_mask_detection.py
 
 4. In the main menu, you will have the following elements: 
     - **A main panel** where the selected camera will be displayed together with the detections of the masked or unmasked faces from it, as well as real time statistics of their numbers and its status ("Not Connected" - the camera is not connected to the system, "Safe" - all people wear mask, "Warning" - 1 or 2 people do not wear a mask, "Danger" - more than 3 people do not wear a mask);
-    - **A small selection menu** in the upper part of the window from where you can select which camera do you whish to visualize;
+    - **A small selection menu** in the upper part of the window from where you can select which camera do you wish to visualize;
     - **A camera control panel** in the right part of the window where the camera list is displayed together with the status of every camera in real time;
     - **A "Take Photo" button** placed in the lower part of the window used for taking photos for further analysis in order to identify the persons not wearing a mask.
     
